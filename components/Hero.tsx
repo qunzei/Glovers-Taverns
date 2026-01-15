@@ -30,15 +30,15 @@ const Hero: React.FC = () => {
         <h2 className="font-display text-2xl md:text-4xl text-glover-gold tracking-[0.3em] uppercase mb-8">
           Bar & Grill
         </h2>
-        
+
         <p className="text-gray-200 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed opacity-90">
-          Your neighborhood spot in Abrams, Wisconsin for great food, cold drinks, 
+          Your neighborhood spot in Abrams, Wisconsin for great food, cold drinks,
           and all the big games. Pull up a stool and stay awhile.
         </p>
-        
+
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
           <button
-            onClick={() => navigate('home', 'menu')}
+            onClick={() => navigate('full-menu')}
             className="px-8 py-3 bg-glover-gold text-glover-dark font-bold text-sm tracking-widest uppercase rounded-sm hover:bg-amber-400 transition-colors"
           >
             View Menu
