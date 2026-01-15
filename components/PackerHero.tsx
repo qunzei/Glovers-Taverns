@@ -1,9 +1,9 @@
 import React from 'react';
 import { Mouse } from 'lucide-react';
-import { useNavigation } from '../context/NavigationContext';
+import { useNavigate } from 'react-router-dom';
 
 const PackerHero: React.FC = () => {
-  const { navigate } = useNavigation();
+  const navigate = useNavigate();
 
   return (
     <section id="home" className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-packer-green">
@@ -19,33 +19,33 @@ const PackerHero: React.FC = () => {
 
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto mt-16">
         <div className="inline-block border-2 border-packer-gold px-6 py-2 mb-8 rounded-sm bg-black/30 backdrop-blur-sm">
-            <span className="text-packer-gold text-sm font-bold tracking-[0.2em] uppercase">
+          <span className="text-packer-gold text-sm font-bold tracking-[0.2em] uppercase">
             Est. Green Bay, WI
-            </span>
+          </span>
         </div>
-        
+
         <h1 className="font-display text-5xl md:text-8xl font-bold text-white mb-2 leading-none tracking-tighter uppercase drop-shadow-lg">
           The Packer
         </h1>
         <h2 className="font-display text-4xl md:text-7xl font-bold text-packer-gold mb-8 leading-none tracking-tight uppercase drop-shadow-lg">
           Stadium Lounge
         </h2>
-        
+
         <p className="text-gray-200 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-          Your premier game day destination and neighborhood pub. 
-          <br className="hidden md:block"/>
+          Your premier game day destination and neighborhood pub.
+          <br className="hidden md:block" />
           Cold drinks, live music, and the best pregame energy in town.
         </p>
-        
+
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
           <button
-            onClick={() => navigate('home', 'events')}
+            onClick={() => navigate('/packer-stadium#events')}
             className="px-8 py-3 bg-packer-gold text-packer-dark font-bold text-sm tracking-widest uppercase rounded-sm hover:bg-yellow-400 transition-colors border border-packer-gold"
           >
             What's On
           </button>
           <button
-            onClick={() => navigate('home', 'location')}
+            onClick={() => navigate('/packer-stadium#location')}
             className="px-8 py-3 bg-transparent border border-white/30 text-white font-bold text-sm tracking-widest uppercase rounded-sm hover:bg-white hover:text-packer-dark transition-colors"
           >
             Find Us

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, MapPin, Phone, Home } from 'lucide-react';
-import { useNavigation } from '../context/NavigationContext';
+import { useNavigate } from 'react-router-dom';
 
 const BlueCollarNavbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { navigate, selectVenue } = useNavigation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,24 +15,24 @@ const BlueCollarNavbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent, page: 'home' | 'full-menu' | 'upcoming-shows', sectionId?: string) => {
+  const handleNavClick = (e: React.MouseEvent, path: string) => {
     e.preventDefault();
-    navigate(page, sectionId);
+    navigate(path);
     setIsOpen(false);
   };
 
   const navLinks = [
-    { name: 'About', action: (e: React.MouseEvent) => handleNavClick(e, 'home', 'about') },
-    { name: 'Menu', action: (e: React.MouseEvent) => handleNavClick(e, 'full-menu') },
-    { name: 'Events', action: (e: React.MouseEvent) => handleNavClick(e, 'upcoming-shows') },
-    { name: 'Location', action: (e: React.MouseEvent) => handleNavClick(e, 'home', 'location') },
+    { name: 'About', path: '/blue-collar#about' },
+    { name: 'Menu', path: '/blue-collar/menu' },
+    { name: 'Events', path: '/blue-collar/events' },
+    { name: 'Location', path: '/blue-collar#location' },
   ];
 
   return (
     <div className="fixed w-full z-50">
       <nav className={`transition-all duration-300 ${scrolled ? 'bg-bluecollar-dark/95 backdrop-blur-sm shadow-lg py-3' : 'bg-bluecollar-dark/80 backdrop-blur-sm py-4 border-b border-bluecollar-blue/20'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          
+
           {/* Centered Navigation Links (Desktop) */}
           <div className="hidden md:flex absolute inset-0 justify-center items-center pointer-events-none">
             <div className="pointer-events-auto flex space-x-8 z-20">
@@ -40,7 +40,7 @@ const BlueCollarNavbar: React.FC = () => {
                 <a
                   key={link.name}
                   href="#"
-                  onClick={link.action}
+                  onClick={(e) => handleNavClick(e, link.path)}
                   className="text-gray-300 hover:text-bluecollar-blue font-medium transition-colors text-sm uppercase tracking-widest relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-bluecollar-blue after:left-0 after:-bottom-1 after:transition-all hover:after:w-full"
                 >
                   {link.name}
@@ -50,19 +50,19 @@ const BlueCollarNavbar: React.FC = () => {
           </div>
 
           <div className="flex justify-between items-center h-10">
-            
+
             {/* Left: Logo and Home Icon */}
             <div className="flex items-center gap-6 z-10 flex-shrink-0">
-               {/* Home Icon */}
-               <button 
-                  onClick={() => selectVenue(null)}
-                  className="hidden xl:flex items-center justify-center text-gray-500 hover:text-bluecollar-blue transition-colors border-r border-gray-600 pr-6 mr-2"
-                  title="View All Locations"
-                >
-                  <Home className="w-5 h-5" />
-                </button>
+              {/* Home Icon */}
+              <button
+                onClick={() => navigate('/')}
+                className="hidden xl:flex items-center justify-center text-gray-500 hover:text-bluecollar-blue transition-colors border-r border-gray-600 pr-6 mr-2"
+                title="View All Locations"
+              >
+                <Home className="w-5 h-5" />
+              </button>
 
-              <a href="#" onClick={(e) => handleNavClick(e, 'home')} className="flex items-center gap-2 group">
+              <a href="#" onClick={(e) => handleNavClick(e, '/blue-collar')} className="flex items-center gap-2 group">
                 <div className="flex flex-col">
                   <span className="font-display font-bold text-xl md:text-2xl tracking-tighter text-white uppercase leading-none italic">
                     BLUE COLLAR
@@ -76,8 +76,8 @@ const BlueCollarNavbar: React.FC = () => {
 
             {/* Right: Icons & Mobile Menu */}
             <div className="flex items-center gap-4 z-10">
-              <a 
-                href="tel:9207705014" 
+              <a
+                href="tel:9207705014"
                 className="group flex items-center justify-center text-gray-300 hover:text-bluecollar-blue transition-colors"
                 title="Call Us"
               >
@@ -86,9 +86,9 @@ const BlueCollarNavbar: React.FC = () => {
                 </div>
               </a>
 
-              <a 
-                href="https://www.google.com/maps/search/?api=1&query=1313+S+Broadway,+Green+Bay,+WI+54304" 
-                target="_blank" 
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=1313+S+Broadway,+Green+Bay,+WI+54304"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-center text-gray-300 hover:text-bluecollar-blue transition-colors"
                 title="Get Directions"
@@ -118,16 +118,16 @@ const BlueCollarNavbar: React.FC = () => {
                 <a
                   key={link.name}
                   href="#"
-                  onClick={link.action}
+                  onClick={(e) => handleNavClick(e, link.path)}
                   className="block px-3 py-4 rounded-md text-lg font-medium text-gray-200 hover:text-bluecollar-blue hover:bg-black/20 border-b border-white/5 last:border-0 text-center uppercase tracking-wider"
                 >
                   {link.name}
                 </a>
               ))}
               <div className="pt-8 mt-8 border-t border-white/10">
-                <button 
+                <button
                   onClick={() => {
-                    selectVenue(null);
+                    navigate('/');
                     setIsOpen(false);
                   }}
                   className="w-full flex items-center justify-center gap-2 text-sm text-bluecollar-blue uppercase tracking-widest py-4 border border-bluecollar-blue/30 rounded-sm"

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Outlet, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import FullMenu from './components/FullMenu';
@@ -12,59 +13,80 @@ import BlueCollarFooter from './components/BlueCollarFooter';
 import BlueCollarMenu from './components/BlueCollarMenu';
 import BlueCollarUpcomingShows from './components/BlueCollarUpcomingShows';
 import GloversEvents from './components/GloversEvents';
-import { NavigationProvider, useNavigation } from './context/NavigationContext';
 
-const MainContent = () => {
-  const { currentPage, currentVenue } = useNavigation();
-  
-  // If no venue is selected, show the Multi-Venue Landing Page
-  if (!currentVenue) {
-    return <LandingPage />;
-  }
+// Helper to handle hash scrolling and scroll-to-top on route change
+const ScrollToTop = () => {
+  const { pathname, hash } = useLocation();
 
-  // Glovers Bar & Grill
-  if (currentVenue === 'glovers') {
-    return (
-      <div className="min-h-screen bg-[#1a1d21] text-slate-200 font-sans selection:bg-glover-gold selection:text-glover-dark flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          {currentPage === 'home' && <Home />}
-          {currentPage === 'full-menu' && <FullMenu />}
-          {currentPage === 'events' && <GloversEvents />}
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
 
-  // Packer Stadium Lounge
-  if (currentVenue === 'packer_stadium') {
-    return <PackerHome />;
-  }
+  return null;
+};
 
-  // Blue Collar Bar & Grill
-  if (currentVenue === 'blue_collar') {
-    return (
-      <div className="min-h-screen bg-bluecollar-dark text-slate-200 font-sans selection:bg-bluecollar-blue selection:text-black flex flex-col">
-        <BlueCollarNavbar />
-        <main className="flex-grow">
-          {currentPage === 'home' && <BlueCollarHome />}
-          {currentPage === 'full-menu' && <BlueCollarMenu />}
-          {currentPage === 'upcoming-shows' && <BlueCollarUpcomingShows />}
-        </main>
-        <BlueCollarFooter />
-      </div>
-    );
-  }
+const GloversLayout = () => {
+  return (
+    <div className="min-h-screen bg-[#1a1d21] text-slate-200 font-sans selection:bg-glover-gold selection:text-glover-dark flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-  return <VenuePlaceholder name='Coming Soon' />;
+const BlueCollarLayout = () => {
+  return (
+    <div className="min-h-screen bg-bluecollar-dark text-slate-200 font-sans selection:bg-bluecollar-blue selection:text-black flex flex-col">
+      <BlueCollarNavbar />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      <BlueCollarFooter />
+    </div>
+  );
 };
 
 function App() {
   return (
-    <NavigationProvider>
-      <MainContent />
-    </NavigationProvider>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Glovers Bar & Grill */}
+        <Route path="/glovers" element={<GloversLayout />}>
+          <Route index element={<Home />} />
+          <Route path="menu" element={<FullMenu />} />
+          <Route path="events" element={<GloversEvents />} />
+        </Route>
+
+        {/* Packer Stadium Lounge */}
+        <Route path="/packer-stadium" element={<PackerHome />} />
+
+        {/* Blue Collar Bar & Grill */}
+        <Route path="/blue-collar" element={<BlueCollarLayout />}>
+          <Route index element={<BlueCollarHome />} />
+          <Route path="menu" element={<BlueCollarMenu />} />
+          <Route path="events" element={<BlueCollarUpcomingShows />} />
+        </Route>
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

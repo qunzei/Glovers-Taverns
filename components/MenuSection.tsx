@@ -1,9 +1,9 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { useNavigation } from '../context/NavigationContext';
+import { useNavigate } from 'react-router-dom';
 
 const MenuSection: React.FC = () => {
-  const { navigate } = useNavigation();
+  const navigate = useNavigate();
 
   const highlights = [
     {
@@ -45,9 +45,9 @@ const MenuSection: React.FC = () => {
           {highlights.map((item, index) => (
             <div key={index} className="group relative rounded-lg overflow-hidden bg-[#23272e] border border-white/5">
               <div className="h-64 overflow-hidden">
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
+                <img
+                  src={item.image}
+                  alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
@@ -63,10 +63,10 @@ const MenuSection: React.FC = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="flex flex-col items-center justify-center gap-4">
-          <button 
-            onClick={() => navigate('full-menu')}
+          <button
+            onClick={() => navigate('/glovers/menu')}
             className="group flex items-center gap-2 px-10 py-4 bg-glover-gold text-glover-dark font-bold text-sm tracking-widest uppercase rounded-sm hover:bg-amber-400 transition-colors"
           >
             View Full Menu

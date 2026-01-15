@@ -1,9 +1,9 @@
 import React from 'react';
 import { Mouse } from 'lucide-react';
-import { useNavigation } from '../context/NavigationContext';
+import { useNavigate } from 'react-router-dom';
 
 const Hero: React.FC = () => {
-  const { navigate } = useNavigation();
+  const navigate = useNavigate();
 
   return (
     <section id="home" className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden bg-[#0f172a]">
@@ -38,13 +38,13 @@ const Hero: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
           <button
-            onClick={() => navigate('full-menu')}
+            onClick={() => navigate('/glovers/menu')}
             className="px-8 py-3 bg-glover-gold text-glover-dark font-bold text-sm tracking-widest uppercase rounded-sm hover:bg-amber-400 transition-colors"
           >
             View Menu
           </button>
           <button
-            onClick={() => navigate('home', 'location')}
+            onClick={() => navigate('/glovers#location')}
             className="px-8 py-3 bg-transparent border border-white/30 text-white font-bold text-sm tracking-widest uppercase rounded-sm hover:bg-white hover:text-glover-dark transition-colors"
           >
             Find Us
